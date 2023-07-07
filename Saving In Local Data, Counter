@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1></h1>
+    <button>Increment</button>
+    <button>Decrement</button>
+</body>
+</html>
+
+<script>
+    // let counter = 0;
+    // let counter = localStorage.getItem('localCounter')
+    // console.log(counter);
+    // console.log(null-1);
+    // whenever u r trying to access which are not present in local storage it is not undefined it is null, 
+   
+   let counter;
+    if(localStorage.getItem('localCounter')==null){
+        counter=0;
+    }
+    else{
+        counter = localStorage.getItem('localCounter')
+    }
+    
+    // or simpply write
+    // console.log(localStorage.getItem('localCounter')||0);
+    // counter = localStorage.getItem('localCounter')||0; means null nai 0 ayega if value hoga to sirf value ayega 
+
+    document.querySelector('h1').innerText = counter;
+
+    document.querySelector('h1+button').addEventListener('click',incFun);
+    document.querySelector('button+button').addEventListener('click',decFun);
+
+    function incFun(){
+        counter++; //null + 1
+        document.querySelector('h1').innerText = counter;
+        localStorage.setItem("localCounter",counter);
+    }
+    function decFun(){
+        counter--;
+        document.querySelector('h1').innerText = counter;
+        localStorage.setItem("localCounter",counter);
+    }
+
+    // console.log(true||true);
+    // console.log(true||false);
+    // console.log(false||true);
+    // console.log(false||false);
+
+    console.log(null||true);
+    console.log(true||true);
+    console.log(null||0);
+    console.log(0||1);
+    console.log(3||0);
+
+</script>
