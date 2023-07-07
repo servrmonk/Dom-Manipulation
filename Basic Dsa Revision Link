@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+*{
+    background-color: rgba(245, 245, 245, 0.907);
+    padding: 5px;
+    
+}
+
+#form{
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+    /* border: 1px solid black; */
+    margin: auto;
+    width: 24%;
+    height: 400px;
+    padding: 5px;
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;;
+
+}
+
+#form>h1{
+    /* border: 1px solid black; */
+    font-size: 45px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 8px;
+    height: 85px;
+    letter-spacing: 3px;
+    
+}
+#title{
+    margin-top: -40px;
+}
+#link{
+    /* margin-top: -140px; */
+}
+#difficulty{
+    /* margin-top: -165px; */
+    width: 71%;
+    height: 54px;
+    font-size: 20px;
+}
+#title,#link{
+    width: 70%;
+    height: 40px;
+    font-size: 20px;  
+}
+
+#submit{
+    width:79%;
+    height: 40px;
+    margin-bottom: 200px;
+    border-radius: 20px;
+    background-color: rgb(17, 17, 149);
+    color: white;
+    font-size: 20px;
+    letter-spacing: 1px;
+    
+}
+
+table{
+    border: 1px solid;
+    margin: auto;
+    width: 42%;
+    /* display: flex; */
+    /* justify-content: space-between;     */
+    /* display: flex; */
+    /* justify-content: space-around; */
+}
+
+
+table {
+    border: 1px solid;
+    margin: auto;
+    width: 42%;
+    /* display: flex; */
+    /* justify-content: space-between;     */
+    /* display: flex; */
+    /* justify-content: space-around; */
+}
+
+
+</style>
+    <title>Home Page</title>
+</head>
+<body>
+    <form id="form">
+
+        <h1>DSA Revision App</h1>
+        <input type="text" name="" id="title" placeholder="Enter Question title">
+        <input type="text" name="" id="link" placeholder="Enter Leetcode link">
+
+        <select name="" id="difficulty">
+            <option value="">Select Difficulty Level</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+        </select>
+
+        <input type="submit" value="Submit" id="submit"/>
+    </form>
+    <table>
+        <thead>
+            <th>Question title</th>
+            <th>Question Link</th>
+            <th>Difficulty Level</th>
+            <th>Revision Required</th>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</body>
+</html>
+<script>
+document.querySelector('form').addEventListener('submit', myDsa);
+
+let queArr = [];
+
+function myDsa(e) {
+    e.preventDefault();
+
+    // let queArr = []; make outside the funciton
+
+    let queObj = {
+        queTitle: document.querySelector('#title').value,
+        queLink: document.querySelector('#link').value,
+        queDifficulty: document.querySelector('#difficulty').value,
+    };
+
+    queArr.push(queObj);
+    // console.log(queArr);
+
+    // seperate function me 
+    // queArr.forEach(function (elem)  //here elem is obj, array h so i m using array
+    // {
+    //     let tr = document.createElement('tr');
+
+    //     let td1 = document.createElement('td');
+    //     td1.innerText = elem.queTitle;
+
+    //     let td2 = document.createElement('td');
+    //     td2.innerText = elem.queLink;
+
+    //     let td3 = document.createElement('td');
+    //     td3.innerText = elem.queDifficulty;
+
+    //     let td4 = document.createElement('td');
+    //     if (elem.queDifficulty == 'Easy') {
+    //         td4.innerText = 'No'
+    //     }
+    //     else {
+    //         td4.innerText = 'Yes';
+    //     }
+
+    //     tr.append(td1, td2, td3, td4);
+    //     document.querySelector('tbody').append(tr);
+    // })
+
+    displayTable(queArr);
+
+}
+
+function displayTable(queArr) {
+
+    document.querySelector('tbody').innerHTML = '';
+
+    queArr.forEach(function (elem)  //here elem is obj, array h so i m using array
+    {
+        let tr = document.createElement('tr');
+
+        let td1 = document.createElement('td');
+        td1.innerText = elem.queTitle;
+
+        let td2 = document.createElement('td');
+        td2.innerText = elem.queLink;
+
+        let td3 = document.createElement('td');
+        td3.innerText = elem.queDifficulty;
+
+        let td4 = document.createElement('td');
+        if (elem.queDifficulty == 'Easy') {
+            td4.innerText = 'No'
+        }
+        else {
+            td4.innerText = 'Yes';
+        }
+
+        tr.append(td1, td2, td3, td4);
+        document.querySelector('tbody').append(tr);
+    })
+}
+</script>
