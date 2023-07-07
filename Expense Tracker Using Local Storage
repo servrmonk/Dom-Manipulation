@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+</head>
+
+<body>
+    <form id="form">
+
+        <span>Choose Expense Amount:</span>
+        <input type="number" required name="" id="expenseAmount">
+        <br>
+        <span>Choose Description: </span>
+        <input type="text" name="" required id="description">
+        <br>
+        <span>Choose a category: </span>
+        <select name="" id="chooseExp">
+            <option value="movie">Movie</option>
+            <option value="food">Food</option>
+            <option value="vehicle">Vehicle</option>
+            <option value="others">Others</option>
+        </select>
+        <br>
+        <input type="submit" value="Add Expense" name="" id="expButton">
+    </form>
+    <div id="displayHere"></div>
+
+    <script>
+        var form = document.getElementById('form');
+        form.addEventListener('submit', trackExpense);
+        var expArr = JSON.parse(localStorage.getItem('ExpenseList')) || [];
+
+        displayExpenses();
+
+        function trackExpense(e) {
+            e.preventDefault();
+            var expAmount = document.getElementById('expenseAmount').value;
+            var descr = document.getElementById('description').value;
+            var categ = document.getElementById('chooseExp').value;
+
+            var obj = {
+                am: expAmount,
+                des: descr,
+                cat: categ,
+            };
+            expArr.push(obj);
+            localStorage.setItem('ExpenseList', JSON.stringify(expArr));
+
+            displayExpenses();
+
+            document.getElementById('expenseAmount').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('chooseExp').value = '';
+        }
+
+        function displayExpenses() {
+            document.querySelector('#displayHere').innerHTML = '';
+            for (var i = 0; i < expArr.length; i++) {
+                var obj = expArr[i];
+
+                var tr = document.createElement('tr');
+                var td1 = document.createElement('td');
+                td1.innerText = obj.am;
+                var td2 = document.createElement('td');
+                td2.innerText = obj.cat;
+                var td3 = document.createElement('td');
+                td3.innerText = obj.des;
+
+                var delBtn = document.createElement('button');
+                delBtn.innerText = 'Delete Expense';
+                delBtn.addEventListener('click', delFunction.bind(null, i));
+                var edtBtn = document.createElement('button');
+                edtBtn.innerText = 'Edit Expense';
+                edtBtn.addEventListener('click', edtFunction.bind(null, obj));
+
+                tr.append(td1, " - ", td2, " - ", td3, delBtn, edtBtn);
+                document.querySelector('#displayHere').appendChild(tr);
+            }
+        }
+
+        function delFunction(index) {
+            expArr.splice(index, 1);
+            localStorage.setItem('ExpenseList', JSON.stringify(expArr));
+            displayExpenses();
+        }
+
+        function edtFunction(obj) {
+            document.getElementById('expenseAmount').value = obj.am;
+            document.getElementById('description').value = obj.des;
+            document.getElementById('chooseExp').value = obj.cat;
+            
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- 
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+</head>
+
+<body>
+    <form id="form">
+
+        <span>Choose Expense Amount:</span>
+        <input type="number" required name="" id="expenseAmount">
+        <br>
+        <span>Choose Description: </span>
+        <input type="text" name="" required id="description">
+        <br>
+        <span>Choose a category: </span>
+        <select name="" id="chooseExp">
+            <option value="movie">Movie</option>
+            <option value="food">Food</option>
+            <option value="vehicle">Vehicle</option>
+            <option value="others">Others</option>
+        </select>
+        <br>
+        <input type="submit" value="Add Expense" name="" id="expButton">
+    </form>
+    <div id="displayHere"></div>
+
+    <script>
+        var form = document.getElementById('form');
+        form.addEventListener('submit', trackExpense);
+
+        function trackExpense(e) {
+            e.preventDefault();
+
+            var expAmount = document.getElementById('expenseAmount').value;
+            var descr = document.getElementById('description').value;
+            var categ = document.getElementById('chooseExp').value;
+
+            var obj = {
+                am: expAmount,
+                des: descr,
+                cat: categ,
+            };
+
+            var expArr = JSON.parse(localStorage.getItem('ExpenseList')) || [];
+            expArr.push(obj);
+            localStorage.setItem('ExpenseList', JSON.stringify(expArr));
+
+            var displayHere = document.querySelector('#displayHere');
+            displayHere.innerHTML = '';
+
+            for (var i = 0; i < expArr.length; i++) {
+                var tr = document.createElement('tr');
+                var td1 = document.createElement('td');
+                td1.innerText = expArr[i].am;
+                var td2 = document.createElement('td');
+                td2.innerText = expArr[i].cat;
+                var td3 = document.createElement('td');
+                td3.innerText = expArr[i].des;
+
+                var delBtn = document.createElement('button');
+                delBtn.innerText = 'Delete Expense';
+                delBtn.addEventListener('click', function (index) {
+                    return function () {
+                        delFunction(index);
+                    };
+                }(i));
+
+                var edtBtn = document.createElement('button');
+                edtBtn.innerText = 'Edit Expense';
+                edtBtn.addEventListener('click', function (expenseObj) {
+                    return function () {
+                        edtFunction(expenseObj);
+                    };
+                }(expArr[i]));
+
+                tr.append(td1, " - ", td2, " - ", td3, delBtn, edtBtn);
+                displayHere.appendChild(tr);
+            }
+        }
+
+        function delFunction(index) {
+            var expArr = JSON.parse(localStorage.getItem('ExpenseList'));
+            expArr.splice(index, 1);
+            localStorage.setItem('ExpenseList', JSON.stringify(expArr));
+            trackExpense(event); // Pass the event object to refresh the expenses
+        }
+
+        function edtFunction(obj) {
+            delFunction(index);
+            document.getElementById('expenseAmount').value = obj.am;
+            document.getElementById('description').value = obj.des;
+            document.getElementById('chooseExp').value = obj.cat;
+        }
+    </script>
+</body>
+
+</html>
+
+ -->
